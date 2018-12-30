@@ -2,16 +2,6 @@ import math
 import statistics
 import scipy.stats
 
-''' Naive Bayes
-
-    Bayes Theorem: P(A|B) = P(B|A) * P(A) / P(B)
-
-
-
-'''
-
-
-
 class Priori(object):
     ''' Helper methods to define a priori output distributions
     '''
@@ -88,23 +78,23 @@ class Priori(object):
 if __name__ == '__main__':
     uniform = Priori.uniform([1,2,3,4,5,6])
     print "Uniform A Priori:"
-    print "%s: %s" % (3, uniform(3))
-    print "%s: %s" % (0, uniform(0))
+    print "%s: %.2f" % (3, uniform(3))
+    print "%s: %.2f" % (0, uniform(0))
 
     multinomial = Priori.multinomial([1,2,3,4,5,6, 1, 2, 3, 2, 1, 2, 2,1, 1, 1, 1, 1, 1])
     print "Multinomial A Priori:"
-    print "%s: %s" % ((3,), multinomial(3))
-    print "%s: %s" % ((1, 1), multinomial([1, 1]))
-    print "%s: %s" % ((0, 1), multinomial((0, 1)))
-    print "%s: %s" % ((1, 2, 1), multinomial((1, 2, 1)))
+    print "%s: %.2f" % ((3,), multinomial(3))
+    print "%s: %.2f" % ((1, 1), multinomial([1, 1]))
+    print "%s: %.2f" % ((0, 1), multinomial((0, 1)))
+    print "%s: %.2f" % ((1, 2, 1), multinomial((1, 2, 1)))
 
     normal = Priori.normal([10, 11.2, 12, 11, 9, 10.4, 9, 12.1, 11, 8, 12, 9, 10, 10])
     print "Normal A Priori (From sample):"
-    print "%s: %s" % (10.3, normal(10.3))
-    print "%s: %s" % (6.6, normal(6.6))
+    print "%s: %.2f" % (10.3, normal(10.3))
+    print "%s: %.2f" % (6.6, normal(6.6))
 
     normal = Priori.normal(None, mu=0., sigma=1.)
     print "Normal A Priori (0,1):"
-    print "%s: %s" % (0., normal(0))
-    print "%s: %s" % (1., normal(1))
-    print "%s: %s" % (2., normal(2))
+    print "%s: %.2f" % (0., normal(0))
+    print "%s: %.2f" % (1., normal(1))
+    print "%s: %.2f" % (2., normal(2))
