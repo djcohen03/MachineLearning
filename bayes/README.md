@@ -2,10 +2,10 @@
 This repository holds a Naive Bayes classification training/predicting class, inspired by the excellent `scikit-learn` [package](https://scikit-learn.org/stable/)! Please read: [Naive Bayes classifier](https://en.wikipedia.org/wiki/Naive_Bayes_classifier)
 
 ## How-To:
-I have had some succes using a workflow roughly as follows:
+A good workflow might look something like this:
 1. Obtain some 2-D input and 1-D output data
 2. Choose an a priori output distribution:
-    - Choose **Uniform** if the outputs are expected to be roughly uniform 
+    - Choose **Uniform** if the outputs are expected to be roughly uniform
     - Choose **Multinomial** if we suspect that the output distribution is _nonuniform_ (see: [Multinomial distribution](https://en.wikipedia.org/wiki/Multinomial_distribution))
 3. Create/Train the classifier with the class methods `BayesClassifier.uniform` or `BayesClassifier.multinomial`
 
@@ -18,18 +18,18 @@ And that should be it! The result should be an object capable of predicting outp
 class BayesClassifier():
     __init__(priori, posterior, buckets)
     ''' Initialize NBC class with the given prior and posterior distributions, and with the given outputs'''
-    
+
     predict(input)
     ''' Use the trained model to predict the output for the given input '''
 
     score(inputs, outputs)
     ''' Test a set of inputs, to see if they match the given outputs, return % success '''
 
-    @classmethod 
+    @classmethod
     uniform(inputs, outputs, buckets=None, zero=0.0)
     ''' Initialize NBC with a uniform a priori assumtion'''
-    
-    @classmethod 
+
+    @classmethod
     multinomial(inputs, outputs, buckets=None, frequencies=None, zero=0.0)
     ''' Initialize NBC with a multinomial a priori assumtion'''
 
@@ -45,7 +45,7 @@ class Priori():
     @classmethod
     def multinomial(samples, frequencies=None, zero=0.0):
     ''' Given a 1-D list of outputs, return an a priori lamdba function based on the multinomial distribution '''
-    
+
 ```
 
 ### Posterior:
