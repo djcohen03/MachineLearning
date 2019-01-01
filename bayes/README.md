@@ -13,8 +13,9 @@ And that should be it! The result should be an object capable of predicting outp
 
 ## Class Documentation
 
-#### _class_ BayesClassifier
+### BayesClassifier:
 ```
+class BayesClassifier():
     __init__(priori, posterior, buckets)
     ''' Initialize NBC class with the given prior and posterior distributions, and with the given outputs'''
     
@@ -34,15 +35,17 @@ And that should be it! The result should be an object capable of predicting outp
 
 ```
 
-#### _class_ Posterior
+### Posterior:
 ```
+class Posterior():
     @classmethod
     def immutable(inputs, outputs, zero=0.0):
     ''' Given a 2-D list of immutable inputs, and a 1-D list of outputs, train the frequentist posterior distribution lambda function '''
 ```
 
-#### _class_ Priori
+### Priori:
 ```
+class Priori():
     @classmethod
     def uniform(values):
     ''' Given a 1-D list of outputs, return an a priori lamdba function based on the uniform distribution '''
@@ -55,7 +58,7 @@ And that should be it! The result should be an object capable of predicting outp
 
 
 ## Example:
-Here is a nice simple example, where the `output` is simply the value of `input[1] % 2` (note that we limit the inputs to integers between 0 and 40).  As you will see, the classifier does a nice job of implicitely learning this simple rule with as little as 1000 data points:
+Here is a nice simple example, where the `output` is simply the value of `input[1] % 2` (note that we limit the inputs to integers between 0 and 40).  As you will see, the classifier does a nice job of **implicitely learning this simple rule with as little as 1000 data points**:
 
 ```
 import random
