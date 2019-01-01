@@ -1,1 +1,1 @@
-from knieghbors import KNeighbors
+from kneighbors import KNeighbors
