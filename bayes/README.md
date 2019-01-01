@@ -21,7 +21,7 @@ And that should be it! The result should be an object capable of predicting outp
     predict(input)
     ''' Use the trained model to predict the output for the given input '''
 
-    score(self, inputs, outputs)
+    score(inputs, outputs)
     ''' Test a set of inputs, to see if they match the given outputs, return % success '''
 
     @classmethod 
@@ -80,5 +80,6 @@ print "Testing Success Rate: %.2f%%" % (score * 100.)
 ## Up Next:
 - Let's think about adding in functionality for making continuous/regression predictions
 - Might be nice to have an explicit _Bernoulli_ distribution wrapper, even though it's just a special case of the Multinomial distribution
+- Let's also think about adding other potential classification-based a priori distribution options
 - Write some unit tests
 - Not sure if our project will work on input data with greater than 2 dimensions, or if that would even make sense in this context.  A next step might be to explore higher dimensional input data
