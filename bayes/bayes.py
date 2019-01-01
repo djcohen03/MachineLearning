@@ -11,8 +11,8 @@ from priori import Priori
 
 class BayesClassifier(object):
     ''' Naive Bayes Classifier
-            - inputs: 2-D lists or 2-D numpy.ndarrays
-            - outputs: 1-D list or 1-D numpy.ndarray
+            - inputs: 2-D lists or 2-D numpy.ndarrays (categorical)
+            - outputs: 1-D list or 1-D numpy.ndarray (categorical)
     '''
     def __init__(self, priori, posterior, buckets):
         self.priori = priori
