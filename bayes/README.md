@@ -1,5 +1,5 @@
 # Naive Bayes
-This repository holds a Naive Bayes classification training/predicting class, inspired by the excellent `scikit-learn` package! Please read: [Naive Bayes classifier](https://en.wikipedia.org/wiki/Naive_Bayes_classifier)
+This repository holds a Naive Bayes classification training/predicting class, inspired by the excellent `scikit-learn` [package](https://scikit-learn.org/stable/)! Please read: [Naive Bayes classifier](https://en.wikipedia.org/wiki/Naive_Bayes_classifier)
 
 ## How-To:
 I have had some succes using a workflow roughly as follows:
