@@ -1,15 +1,15 @@
 # Naive Bayes
-This repository holds a Naive Bayes classification training/predicting class, inspired by the excellent `scikit-learn` package!
+This repository holds a Naive Bayes classification training/predicting class, inspired by the excellent `scikit-learn` package! Please read: [Naive Bayes classifier](https://en.wikipedia.org/wiki/Naive_Bayes_classifier)
 
 ## How-To:
 I have had some succes using a workflow roughly as follows:
-1. Obtain some input and output data. Note that input data must be 2-D, and output data must be a 1-D list/array!
+1. Obtain some 2-D input and 1-D output data
 2. Choose an a priori output distribution:
-    - Choose **Uniform** if the outputs are expected to be roughly uniform
-    - Choose **Multinomial** if we suspect that the output distribution is _nonuniform_
+    - Choose **Uniform** if the outputs are expected to be roughly uniform 
+    - Choose **Multinomial** if we suspect that the output distribution is _nonuniform_ (see: [Multinomial distribution](https://en.wikipedia.org/wiki/Multinomial_distribution))
 3. Create/Train the classifier with the class methods `BayesClassifier.uniform` or `BayesClassifier.multinomial`
 
-And that should be it! The result should be an object capable of predicting outputs, given an input. 
+And that should be it! The result should be an object capable of predicting outputs with the `nbc.predict(input)` prediction method!
 
 ## Class Documentation
 
@@ -35,14 +35,6 @@ class BayesClassifier():
 
 ```
 
-### Posterior:
-```
-class Posterior():
-    @classmethod
-    def immutable(inputs, outputs, zero=0.0):
-    ''' Given a 2-D list of immutable inputs, and a 1-D list of outputs, train the frequentist posterior distribution lambda function '''
-```
-
 ### Priori:
 ```
 class Priori():
@@ -56,9 +48,18 @@ class Priori():
     
 ```
 
+### Posterior:
+```
+class Posterior():
+    @classmethod
+    def immutable(inputs, outputs, zero=0.0):
+    ''' Given a 2-D list of immutable inputs, and a 1-D list of outputs, train the frequentist posterior distribution lambda function '''
+```
+
+
 
 ## Example:
-Here is a nice simple example, where the `output` is simply the value of `input[1] % 2` (note that we limit the inputs to integers between 0 and 40).  As you will see, the classifier does a nice job of **implicitely learning this simple rule with as little as 1000 data points**:
+Here we whip up a simple example where the `output` is the value of `input[1] % 2`. (Note that we limit the inputs to integers between 0 and 40).  As you will see, the classifier does a nice job of **implicitely learning this simple rule**, with as little as 1000 data points. See:
 
 ```
 import random
@@ -80,7 +81,8 @@ score = nbc.score(testinputs, testoutputs)
 print "Testing Success Rate: %.2f%%" % (score * 100.)
 ```
 
-## Up Next:
+## What's next?
+Some ideas for what's next here:
 - Let's think about adding in functionality for making continuous/regression predictions
 - Might be nice to have an explicit _Bernoulli_ distribution wrapper, even though it's just a special case of the Multinomial distribution
 - Let's also think about adding other potential classification-based a priori distribution options
