@@ -18,7 +18,6 @@ class Priori(object):
         ''' Assume that the output follows a multinomial distribution,
             using the sample given to determine distribution parameters
 
-            Rmk: For classification problems, we can just use a single outcome
             Rmk: You can set a different value for zero, if you want to use an
                 epsilon value to avoid automatically zeroing out the probability
         '''

@@ -1,3 +1,6 @@
+import numpy as np
+from utils import Utils
+
 class Posterior(object):
     ''' The Posterior distribution, represented by the P(B|A) in Bayes Theorem
     '''
@@ -6,58 +9,55 @@ class Posterior(object):
     def immutable(cls, inputs, outputs, zero=0.0):
         ''' Input Data is a immutable (and therefore _is_ hashable)
         '''
-        if len(inputs) != len(outputs):
-            raise Exception("Input/Output Lengths Mismatch (%s, %s)" % (len(input), len(outputs)))
+
+        inrows, features = Utils.shape(inputs)
+        outrows, = Utils.shape(outputs)
+
+        if inrows != outrows:
+            raise Exception("Input/Output Lengths Mismatch (%s in, %s out)" % (inrows, outrows))
+
+        # Create a feature-wise input frequency tracker
+        counts = [{} for _ in range(features)]
 
         # Gather counts of inputs, given a particular output
-        counts = {}
         for i, output in enumerate(outputs):
             input = inputs[i]
-            counts.setdefault(output, {}).setdefault(input, 0)
-            counts[output][input] += 1
+            for j, featureval in enumerate(input):
+                # Add this input/output feature pair to the counts data container
+                counts[j].setdefault(output, {})
+                counts[j][output].setdefault(featureval, 0)
+                counts[j][output][featureval] += 1
+                counts[j][output].setdefault('_total', 0)
+                counts[j][output]['_total'] += 1
 
-            counts[output].setdefault('_total', 0)
-            counts[output]['_total'] += 1
+        frequencies = [{} for _ in range(features)]
+        for i, featuredata in enumerate(counts):
+            for output, inputcounts in featuredata.iteritems():
+                frequencies[i].setdefault(output, {})
+                _total = float(inputcounts['_total'])
+                for input, inputcount in inputcounts.iteritems():
+                    frequencies[i][output][input] = inputcount / _total
 
-        # Determine each input's frequency, based on the given output
-        frequencies = {
-            output: {
-                item: float(count) / float(items['_total'])
-                for item, count in items.iteritems()
-            }
-            for output, items in counts.iteritems()
-        }
+        def probability(inputs, output):
+            ''' Define the P(B|A) frequentist function for Bayes posterior evaluation
+            '''
+            probs = [frequencies[i].get(output, {}).get(inputs[i], zero) for i in range(features)]
+            return np.prod(probs)
 
-        return lambda input, output: frequencies.get(output, {}).get(input, zero)
-
-    @classmethod
-    def dictionary(cls, inputs, outputs, zero=0.0):
-        ''' Input data is a dictionary (todo)
-        '''
-        pass
-
-    @classmethod
-    def lists(cls, inputs, outputs, zero=0.0):
-        ''' Input data points are lists (todo)
-        '''
-        pass
-
+        return probability
 
 if __name__ == '__main__':
-    inputs = [1,2,3,4,5]
-    outputs = [1,0,1,0,1]
-    post = Posterior.immutable(inputs, outputs)
-    print "Posterior Distribution of x%2 data on {1, 2, 3, 4, 5}"
-    print "P(3|1) = %.2f" % post(3, 1)
-    print "P(2|1) = %.2f" % post(2, 1)
-    print "P(2|0) = %.2f" % post(2, 0)
-
-    inputs = [(1, 1), (2, 1), (3, 1), (2, 2), (4, 1)]
-    outputs = [0, 1, 0 , 0, 1]
-    post = Posterior.immutable(inputs, outputs)
-    print "Posterior Distribution of (x + y)%%2 data on %s" % inputs
-    print "P((3, 1)|0) = %.2f" % post((3, 1), 0)
-    print "P((3, 1)|1) = %.2f" % post((3, 1), 1)
-    print "P((2, 1)|1) = %.2f" % post((2, 1), 1)
-    print "P((2, 0)|0) = %.2f" % post((2, 0), 0)
-    print "P(2|0) = %.2f" % post(2, 0)
+    # Example problem
+    import random
+    N = 5000
+    inputs = [
+        [random.randint(0, 40) for _ in range(4)]
+        for _ in range(N)
+    ]
+    outputs = [input[1] % 2 for input in inputs]
+    post = Posterior.immutable(inputs, outputs, zero=0.01)
+    print "Posterior Distribution Example, for output = input[1] % 2"
+    input = [1, 3, 3, 2]
+    print "Input: %s" % input
+    print "P(%s|0) = %.9f" % (input, post(input, 0))
+    print "P(%s|1) = %.9f" % (input, post(input, 1))
