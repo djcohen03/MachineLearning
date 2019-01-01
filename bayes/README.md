@@ -1,13 +1,8 @@
 # Naive Bayes
 This repository holds a Naive Bayes classification training/predicting class, inspired by the excellent `scikit-learn` package!
 
-
-### Prior Distribution Options:
-- Uniform
-- Multinomial
-
 ## How-To:
-As mentioned, this class is meant to be used in a similar way as the excellent machine learning wrappers in the `scikit-learn` python package.  The workflow is roughly as follows:
+I have had some succes using a workflow roughly as follows:
 1. Obtain some input and output data. Note that input data must be 2-D, and output data must be a 1-D list/array!
 2. Choose an a priori output distribution:
     - Choose **Uniform** if the outputs are expected to be roughly uniform
@@ -16,7 +11,7 @@ As mentioned, this class is meant to be used in a similar way as the excellent m
 
 And that should be it! The result should be an object capable of predicting outputs, given an input. 
 
-## Documentation
+## Class Documentation
 
 #### _class_ BayesClassifier
 ```
@@ -59,7 +54,31 @@ And that should be it! The result should be an object capable of predicting outp
 ```
 
 
+## Example:
+Here is a nice simple example, where the `output` is simply the value of `input[1] % 2` (note that we limit the inputs to integers between 0 and 40).  As you will see, the classifier does a nice job of implicitely learning this simple rule with as little as 1000 data points:
+
+```
+import random
+from bayes import BayesClassifier
+
+# Create Test Data:
+N = 1000
+inputs = [[random.randint(0, 40) for _ in range(10)] for _ in range(N)]
+outputs = [input[1] % 2 for input in inputs]
+
+# Create & Train Naive Bayes Classifier:
+nbc = BayesClassifier.uniform(inputs, outputs, zero=0.01)
+
+# Test Our Classifier:
+print "\nTESTING:"
+testinputs = [[random.randint(0, 40) for _ in range(10)] for _ in range(100)]
+testoutputs = [input[1] % 2 for input in testinputs]
+score = nbc.score(testinputs, testoutputs)
+print "Testing Success Rate: %.2f%%" % (score * 100.)
+```
+
 ## Up Next:
 - Let's think about adding in functionality for making continuous/regression predictions
 - Might be nice to have an explicit _Bernoulli_ distribution wrapper, even though it's just a special case of the Multinomial distribution
 - Write some unit tests
+- Not sure if our project will work on input data with greater than 2 dimensions, or if that would even make sense in this context.  A next step might be to explore higher dimensional input data
